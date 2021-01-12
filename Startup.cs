@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
@@ -58,10 +59,9 @@ namespace WebAppTest01
             try
             {
                 HttpClient client = new HttpClient();
-                var respone = await client.GetAsync("http://www.fss.or.kr/fss/kr/bbs/list.jsp?bbsid=1207404857348&url=/fss/kr/1207404857348");
-                string result = await respone.Content.ReadAsStringAsync();
-
-                await context.Response.WriteAsync(result);
+                var respone = await client.GetByteArrayAsync("http://www.fss.or.kr/fss/kr/bbs/list.jsp?bbsid=1207404857348&url=/fss/kr/1207404857348");
+                var responeseString = Encoding.UTF8.GetString(respone);
+                await context.Response.WriteAsync(responeseString);
             }
             catch(Exception e)
             {
