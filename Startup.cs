@@ -44,14 +44,14 @@ namespace WebAppTest01
 
         private async Task TestHello(HttpContext context)
         {
-            BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
-            //Create a unique name for the container
-            string containerName = "quickstartblobs" + Guid.NewGuid().ToString();
+            //BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+            ////Create a unique name for the container
+            //string containerName = "quickstartblobs" + Guid.NewGuid().ToString();
 
-            // Create the container and return a container client object
-            BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
+            //// Create the container and return a container client object
+            //BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
 
-            await GetList(containerClient, context);
+            //await GetList(containerClient, context);
 
             await context.Response.WriteAsync("Hello World!");
         }
