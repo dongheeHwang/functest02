@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
@@ -53,7 +54,12 @@ namespace WebAppTest01
 
             //await GetList(containerClient, context);
 
-            await context.Response.WriteAsync("Hello World!~~~~~~~");
+
+            HttpClient client = new HttpClient();
+            var respone = await client.GetAsync("http://www.fss.or.kr/fss/kr/bbs/list.jsp?bbsid=1207404857348&url=/fss/kr/1207404857348");
+            string result = await respone.Content.ReadAsStringAsync();
+
+            await context.Response.WriteAsync("result");
         }
 
         private async Task GetList(BlobContainerClient containerClient, HttpContext context)
