@@ -53,7 +53,7 @@ namespace WebAppTest01
 
             //await GetList(containerClient, context);
 
-            await context.Response.WriteAsync("Hello World!");
+            await context.Response.WriteAsync("Hello World!~~~~~~~");
         }
 
         private async Task GetList(BlobContainerClient containerClient, HttpContext context)
