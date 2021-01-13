@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Builder;
@@ -43,12 +44,18 @@ namespace WebAppTest01
         }
 
         const string connectionString = "DefaultEndpointsProtocol=https;AccountName=storagefuncapp001;AccountKey=uH+8gFH31xEQaVAnVIl6Oj42J/hkyWmkpN04h6d2ols1nsdB8HjyUTqvKuP3ST9k3xtWy8H2QJwHHWLJbhacOA==;EndpointSuffix=core.windows.net";
-
+        const string endpoint = "https://storagefuncapp001.privatelink.blob.core.windows.net";
         private async Task TestHello(HttpContext context)
         {
             try
-            { 
-                BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+            {
+                string accountName = "storagefuncapp001";
+                string accountKey = "uH+8gFH31xEQaVAnVIl6Oj42J/hkyWmkpN04h6d2ols1nsdB8HjyUTqvKuP3ST9k3xtWy8H2QJwHHWLJbhacOA==";
+                //BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+                //StorageSharedKeyCredential storageSharedKeyCredential = new StorageSharedKeyCredential(accountName, accountKey);
+                //BlobClient blobClient = new BlobClient()
+                await context.Response.WriteAsync(endpoint);
+                BlobServiceClient blobServiceClient = new BlobServiceClient(new Uri(endpoint));
                 //Create a unique name for the container
                 string containerName = "container01";
 
@@ -97,7 +104,9 @@ namespace WebAppTest01
         }
 
         private async Task Download(BlobContainerClient containerClient, HttpContext context)
-        { }
+        {
+            //containerClient.
+        }
 
         private async Task Upload(BlobContainerClient containerClient, HttpContext context)
         { }
