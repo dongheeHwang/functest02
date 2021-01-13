@@ -53,7 +53,8 @@ namespace WebAppTest01
                 string containerName = "container01";
 
                 // Create the container and return a container client object
-                BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
+                //BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
+                BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
 
                 await GetList(containerClient, context);
             }
