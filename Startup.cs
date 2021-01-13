@@ -52,10 +52,10 @@ namespace WebAppTest01
                 string accountName = "storagefuncapp001";
                 string accountKey = "uH+8gFH31xEQaVAnVIl6Oj42J/hkyWmkpN04h6d2ols1nsdB8HjyUTqvKuP3ST9k3xtWy8H2QJwHHWLJbhacOA==";
                 //BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
-                //StorageSharedKeyCredential storageSharedKeyCredential = new StorageSharedKeyCredential(accountName, accountKey);
+                StorageSharedKeyCredential storageSharedKeyCredential = new StorageSharedKeyCredential(accountName, accountKey);
                 //BlobClient blobClient = new BlobClient()
                 await context.Response.WriteAsync(endpoint);
-                BlobServiceClient blobServiceClient = new BlobServiceClient(new Uri(endpoint));
+                BlobServiceClient blobServiceClient = new BlobServiceClient(new Uri(endpoint), storageSharedKeyCredential);
                 //Create a unique name for the container
                 string containerName = "container01";
 
