@@ -54,7 +54,7 @@ namespace WebAppTest01
                 //BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
                 StorageSharedKeyCredential storageSharedKeyCredential = new StorageSharedKeyCredential(accountName, accountKey);
                 //BlobClient blobClient = new BlobClient()
-                await context.Response.WriteAsync(endpoint);
+                //await context.Response.WriteAsync(endpoint);
                 BlobServiceClient blobServiceClient = new BlobServiceClient(new Uri(endpoint), storageSharedKeyCredential);
                 //Create a unique name for the container
                 string containerName = "container01";
