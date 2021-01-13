@@ -42,43 +42,50 @@ namespace WebAppTest01
             });
         }
 
-        const string connectionString = "";
+        const string connectionString = "DefaultEndpointsProtocol=https;AccountName=storagefuncapp001;AccountKey=uH+8gFH31xEQaVAnVIl6Oj42J/hkyWmkpN04h6d2ols1nsdB8HjyUTqvKuP3ST9k3xtWy8H2QJwHHWLJbhacOA==;EndpointSuffix=core.windows.net";
 
         private async Task TestHello(HttpContext context)
         {
-            //BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
-            ////Create a unique name for the container
-            //string containerName = "quickstartblobs" + Guid.NewGuid().ToString();
+            BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+            //Create a unique name for the container
+            string containerName = "container01";
 
-            //// Create the container and return a container client object
-            //BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
+            // Create the container and return a container client object
+            BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
 
-            //await GetList(containerClient, context);
+            await GetList(containerClient, context);
 
 
+            //try
+            //{
+            //    HttpClient client = new HttpClient();
+            //    var respone = await client.GetByteArrayAsync("http://www.fss.or.kr/fss/kr/bbs/list.jsp?bbsid=1207404857348&url=/fss/kr/1207404857348");
+            //    var responeseString = Encoding.UTF8.GetString(respone);
+            //    await context.Response.WriteAsync(responeseString);
+            //}
+            //catch(Exception e)
+            //{
+            //    await context.Response.WriteAsync(e.ToString());
+            //}
+        }
+
+        private async Task GetList(BlobContainerClient containerClient, HttpContext context)
+        {
             try
-            {
-                HttpClient client = new HttpClient();
-                var respone = await client.GetByteArrayAsync("http://www.fss.or.kr/fss/kr/bbs/list.jsp?bbsid=1207404857348&url=/fss/kr/1207404857348");
-                var responeseString = Encoding.UTF8.GetString(respone);
-                await context.Response.WriteAsync(responeseString);
+            { 
+                List<string> items = new List<string>();
+                await foreach (BlobItem blobItem in containerClient.GetBlobsAsync())
+                {
+                    items.Add(blobItem.Name);
+                    //Console.WriteLine("\t" + blobItem.Name);
+                }
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(items));
             }
             catch(Exception e)
             {
                 await context.Response.WriteAsync(e.ToString());
             }
-        }
 
-        private async Task GetList(BlobContainerClient containerClient, HttpContext context)
-        {
-            List<string> items = new List<string>();
-            await foreach (BlobItem blobItem in containerClient.GetBlobsAsync())
-            {
-                items.Add(blobItem.Name);
-                Console.WriteLine("\t" + blobItem.Name);
-            }
-
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(items));
         }
 
         private async Task Download(BlobContainerClient containerClient, HttpContext context)
