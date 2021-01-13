@@ -43,45 +43,21 @@ namespace WebAppTest01
             });
         }
 
-        const string connectionString = "DefaultEndpointsProtocol=https;AccountName=storagefuncapp001;AccountKey=uH+8gFH31xEQaVAnVIl6Oj42J/hkyWmkpN04h6d2ols1nsdB8HjyUTqvKuP3ST9k3xtWy8H2QJwHHWLJbhacOA==;EndpointSuffix=core.windows.net";
-        const string endpoint = "https://storagefuncapp001.privatelink.blob.core.windows.net";
+        const string connectionString = "DefaultEndpointsProtocol=https;AccountName=storagefuncapp002;AccountKey=dFOp6RF9rLFmsiWYxnY+BYOdV5uLdtnjAEJWsgNYSoD1MPUuNF8Sj8qp+CFdJ68T30GpX5T9jTy6P+f5bZg88w==;EndpointSuffix=core.windows.net";
         private async Task TestHello(HttpContext context)
         {
             try
             {
-                string accountName = "storagefuncapp001";
-                string accountKey = "uH+8gFH31xEQaVAnVIl6Oj42J/hkyWmkpN04h6d2ols1nsdB8HjyUTqvKuP3ST9k3xtWy8H2QJwHHWLJbhacOA==";
-                //BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
-                StorageSharedKeyCredential storageSharedKeyCredential = new StorageSharedKeyCredential(accountName, accountKey);
-                //BlobClient blobClient = new BlobClient()
-                //await context.Response.WriteAsync(endpoint);
-                BlobServiceClient blobServiceClient = new BlobServiceClient(new Uri(endpoint), storageSharedKeyCredential);
-                //Create a unique name for the container
+                BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
                 string containerName = "container01";
 
-                // Create the container and return a container client object
-                //BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
                 BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
-
                 await GetList(containerClient, context);
             }
             catch(Exception e)
             {
                 await context.Response.WriteAsync(e.ToString());
             }
-
-
-            //try
-            //{
-            //    HttpClient client = new HttpClient();
-            //    var respone = await client.GetByteArrayAsync("http://www.fss.or.kr/fss/kr/bbs/list.jsp?bbsid=1207404857348&url=/fss/kr/1207404857348");
-            //    var responeseString = Encoding.UTF8.GetString(respone);
-            //    await context.Response.WriteAsync(responeseString);
-            //}
-            //catch(Exception e)
-            //{
-            //    await context.Response.WriteAsync(e.ToString());
-            //}
         }
 
         private async Task GetList(BlobContainerClient containerClient, HttpContext context)
