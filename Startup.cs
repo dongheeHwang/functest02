@@ -71,7 +71,8 @@ namespace WebAppTest01
                 
                 var builder = new MySqlConnectionStringBuilder
                 {
-                    Server = "mysql-funcapp.privatelink.mysql.database.azure.com",
+                    //Server = "mysql-funcapp.privatelink.mysql.database.azure.com",
+                    Server = "10.1.0.6",
                     Database = "test",
                     UserID = "azureadmin@mysql-funcapp",
                     Password = "rkskekfk1234!@#$",
