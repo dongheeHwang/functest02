@@ -68,11 +68,10 @@ namespace WebAppTest01
             await context.Response.WriteAsync("MySQLConnect" + Environment.NewLine);
             try 
             {
-                
                 var builder = new MySqlConnectionStringBuilder
                 {
-                    //Server = "mysql-funcapp.privatelink.mysql.database.azure.com",
-                    Server = "10.1.0.6",
+                    Server = "mysql-funcapp.privatelink.mysql.database.azure.com",
+                    //Server = "10.1.0.6",
                     Database = "test",
                     UserID = "azureadmin@mysql-funcapp",
                     Password = "rkskekfk1234!@#$",
