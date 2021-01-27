@@ -73,7 +73,7 @@ namespace WebAppTest01
                 {
                     //Server = "mysql-funcapp.privatelink.mysql.database.azure.com",
                     Server = "10.1.0.6",
-                    Database = "test",
+                    Database = "testa",
                     UserID = "azureadmin@mysql-funcapp",
                     Password = "rkskekfk1234!@#$",
                     SslMode = MySqlSslMode.Required,
