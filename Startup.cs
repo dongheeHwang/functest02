@@ -65,8 +65,8 @@ namespace WebAppTest01
 
         private async Task MySQLConnect(HttpContext context)
         {
-            string serverName = "mysql-funcapp.privatelink.mysql.database.azure.com";
-            //string serverName = "10.1.0.6";
+            //string serverName = "mysql-funcapp.privatelink.mysql.database.azure.com";
+            string serverName = "10.1.0.6";
             await context.Response.WriteAsync($"MySQLConnect {serverName}" + Environment.NewLine);
             try 
             {
