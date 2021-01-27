@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MySqlConnector;
 using Newtonsoft.Json;
 
 namespace WebAppTest01
@@ -38,7 +40,8 @@ namespace WebAppTest01
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await TestHello(context);
+                    //await TestHello(context);
+                    await MySQLConnect(context);
                 });
             });
         }
@@ -57,6 +60,40 @@ namespace WebAppTest01
             catch(Exception e)
             {
                 await context.Response.WriteAsync(e.ToString());
+            }
+        }
+
+        private async Task MySQLConnect(HttpContext context)
+        {
+            var builder = new MySqlConnectionStringBuilder
+            {
+                Server = "mysql-funcapp.privatelink.mysql.database.azure.com",
+                Database = "test",
+                UserID = "azureadmin@mysql-funcapp",
+                Password = "rkskekfk1234!@#$",
+                SslMode = MySqlSslMode.Required,
+            };
+
+            using (var conn = new MySqlConnection(builder.ConnectionString))
+            {
+                Console.WriteLine("Opening connection");
+                await conn.OpenAsync();
+
+                using (var command = conn.CreateCommand())
+                {
+                    command.CommandText = "SELECT * FROM inventory";
+                    using (DbDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                object obj = await reader.GetFieldValueAsync<object>(i);
+                                await context.Response.WriteAsync(obj.ToString() + Environment.NewLine);
+                            }
+                        }
+                    }
+                }
             }
         }
 
